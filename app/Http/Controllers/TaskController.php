@@ -28,5 +28,8 @@ class TaskController extends Controller
     public function getDetailsTask($id){
         return $this->taskRepo->getDetails($id);
     }
+    public function update($id,Request $request){
+        return $this->taskRepo->updateTask( $id ,$request->all() );
+    }
   
 }

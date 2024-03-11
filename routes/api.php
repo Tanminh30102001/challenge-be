@@ -30,5 +30,5 @@ Route::get('/getDetailsTask/{id}',[TaskController::class,'getDetailsTask']);
 Route::get('/getStatus',[StatusController::class,'getAllStatus']);
 Route::get('/getType',[StatusController::class,'getAllType']);
 Route::get('/getPriority',[StatusController::class,'getAllPriority']);
-
+Route::patch('/updateTask/{id}',[TaskController::class,'update']);
 

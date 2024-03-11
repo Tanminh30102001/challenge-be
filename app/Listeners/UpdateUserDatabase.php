@@ -30,8 +30,7 @@ class UpdateUserDatabase
             'password' => Hash::make($users['password']),
             'email'=>$users['email'],
             'fullname'=>$users['fullname'],
-            'role'=>1,
-            'approve'=>0
+            'approve'=>$users['approve'],
         ]);
        Log::info($signup);
     }

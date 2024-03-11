@@ -78,4 +78,12 @@ class TaskRepository implements TaskRepositoryInterface{
         });
         return $tasksWithUsersArray;
     }
+    public function updateTask($id,$request){
+        $task=Task::findOrFail($id);
+        if($task){
+            $task->update($request);
+            return response()->json(['message' => 'Task update success'], 200);
+        }
+        return response()->json(['message' => 'Task not found'], 400);
+    }
 }

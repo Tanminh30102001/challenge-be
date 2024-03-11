@@ -86,4 +86,29 @@ class TaskRepository implements TaskRepositoryInterface{
         }
         return response()->json(['message' => 'Task not found'], 400);
     }
+    public function showByUser($id){
+        $tasksWithUsersArray = Task::leftJoin('assignments', 'tasks.id', '=', 'assignments.task_id')
+        ->where('assignments.user_id',$id)
+        ->groupBy('tasks.id')
+        ->select('tasks.*', DB::raw('GROUP_CONCAT(assignments.user_id) as user_ids'))
+        ->get()
+        ->map(function ($task) {
+            // Chuyển chuỗi user_ids thành mảng các user_id
+            $task['user_ids'] = explode(',', $task['user_ids']);
+            
+            // Lấy thông tin fullname từ bảng users
+            $userFullnames = [];
+            foreach ($task['user_ids'] as $userId) {
+                $user = User::find($userId);
+                if ($user) {
+                    $userFullnames[] = ['name' => $user->fullname];
+                }
+            }
+            
+            $task['user_fullnames'] = $userFullnames;
+            
+            return $task;
+        });
+        return  $tasksWithUsersArray;
+    }
 }

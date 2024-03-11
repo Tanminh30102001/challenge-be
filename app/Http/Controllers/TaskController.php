@@ -22,7 +22,6 @@ class TaskController extends Controller
        return $this->taskRepo->addTask($request->all());
     }
     public function index(){
-       $data=Task::all();
        return  $this->taskRepo->getAllTassk();
     }
     public function getDetailsTask($id){
@@ -33,6 +32,14 @@ class TaskController extends Controller
     }
     public function show($id){
         return $this->taskRepo->showByUser($id);
+    }
+    public function filterAllTask(Request $request){
+        $req=$request->all();
+        return $this->taskRepo->filterAll($req);
+    }
+    public function fillterWithUser(Request $request,$id){
+        $req=$request->all();
+        return $this->taskRepo->fillterWithUser($id,$req);
     }
   
 }

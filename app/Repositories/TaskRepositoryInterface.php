@@ -7,4 +7,6 @@ interface TaskRepositoryInterface{
     public function getAllTassk();
     public function updateTask($id,$request);
     public function showByUser($id);
+    public function filterAll($request);
+    public function fillterWithUser($id,$request);
 }

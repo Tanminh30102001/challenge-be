@@ -32,4 +32,6 @@ Route::get('/getType',[StatusController::class,'getAllType']);
 Route::get('/getPriority',[StatusController::class,'getAllPriority']);
 Route::patch('/updateTask/{id}',[TaskController::class,'update']);
 Route::get('/getTaskByUser/{id}',[TaskController::class,'show']);
+Route::post('/filterAllTask',[TaskController::class,'filterAllTask']);
+Route::post('/fillterWithUser/{id}',[TaskController::class,'fillterWithUser']);
 

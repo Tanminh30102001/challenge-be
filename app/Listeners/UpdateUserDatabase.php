@@ -29,7 +29,7 @@ class UpdateUserDatabase
             'username'=>$users['username'],
             'password' => Hash::make($users['password']),
             'email'=>$users['email'],
-            'name'=>$users['name'],
+            'fullname'=>$users['fullname'],
             'role'=>1,
             'approve'=>0
         ]);

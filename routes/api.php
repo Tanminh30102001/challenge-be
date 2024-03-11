@@ -24,6 +24,7 @@ Route::post('/register',[UserController::class,'register']);
 Route::post('/login',[UserController::class,'login']);
 Route::get('/getAllUser',[UserController::class,'index']);
 Route::post('/addTask',[TaskController::class,'store']);
+Route::patch('/approveUser/{id}',[UserController::class,'approveUser']);
 Route::get('/allTask',[TaskController::class,'index']);
 Route::get('/getDetailsTask/{id}',[TaskController::class,'getDetailsTask']);
 Route::get('/getStatus',[StatusController::class,'getAllStatus']);

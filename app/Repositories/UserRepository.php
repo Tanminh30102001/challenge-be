@@ -24,6 +24,10 @@ class UserRepository implements RepositoryInterface
             return response()->json( ['message'=>'Your account is not active'], 401);
         }
         return  response()->json(['message'=>'Wrong username or password'],401);
- 
+    }
+    public function approveUser($id){
+        $user = User::findOrFail($id);
+        $user->update([ 'approve'=>1 ]);
+        return  $user;
     }
 }

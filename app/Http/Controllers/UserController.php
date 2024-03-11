@@ -34,5 +34,8 @@ class UserController extends Controller
     public function index(){
         return User::all();
     }
+    public function approveUser($id){
+        return $this->userRepository->approveUser($id);
+    }
 
 }

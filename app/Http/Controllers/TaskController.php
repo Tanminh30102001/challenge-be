@@ -51,4 +51,10 @@ class TaskController extends Controller
     {
         return $this->taskRepo->serchTask($request->search);
     }
+    public function searchWithUser(Request $request,$id){
+        return $this->taskRepo->serchTaskWithUser($request->search,$id);
+    }
+    public function reportTaskStatic(){
+        return $this->taskRepo->reportTask();
+    }
 }

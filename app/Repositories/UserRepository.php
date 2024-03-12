@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 class UserRepository implements RepositoryInterface
 {
     public function register($users){
+        
+        dd($users);
         event(new UserRegistered($users));
         return response()->json( ['message'=>'Register success'], 200);
     }

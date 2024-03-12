@@ -25,13 +25,15 @@ class UpdateUserDatabase
     public function handle(UserRegistered $event): void
     {
         $users = $event->user;
+        
         $signup = User::create([
             'username'=>$users['username'],
             'password' => Hash::make($users['password']),
             'email'=>$users['email'],
             'fullname'=>$users['fullname'],
-            'approve'=>$users['approve'],
         ]);
+      
+
        Log::info($signup);
     }
 }

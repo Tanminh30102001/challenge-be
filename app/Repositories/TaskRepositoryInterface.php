@@ -9,4 +9,5 @@ interface TaskRepositoryInterface{
     public function showByUser($id);
     public function filterAll($request);
     public function fillterWithUser($id,$request);
+    public function serchTask($request);
 }

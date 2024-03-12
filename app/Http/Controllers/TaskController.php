@@ -16,30 +16,39 @@ class TaskController extends Controller
     public function __construct(TaskRepositoryInterface $taskRepo)
     {
         $this->taskRepo = $taskRepo;
-
     }
-    public function store(Request $request){
-       return $this->taskRepo->addTask($request->all());
+    public function store(Request $request)
+    {
+        return $this->taskRepo->addTask($request->all());
     }
-    public function index(){
-       return  $this->taskRepo->getAllTassk();
+    public function index()
+    {
+        return  $this->taskRepo->getAllTassk();
     }
-    public function getDetailsTask($id){
+    public function getDetailsTask($id)
+    {
         return $this->taskRepo->getDetails($id);
     }
-    public function update($id,Request $request){
-        return $this->taskRepo->updateTask( $id ,$request->all() );
+    public function update($id, Request $request)
+    {
+        return $this->taskRepo->updateTask($id, $request->all());
     }
-    public function show($id){
+    public function show($id)
+    {
         return $this->taskRepo->showByUser($id);
     }
-    public function filterAllTask(Request $request){
-        $req=$request->all();
+    public function filterAllTask(Request $request)
+    {
+        $req = $request->all();
         return $this->taskRepo->filterAll($req);
     }
-    public function fillterWithUser(Request $request,$id){
-        $req=$request->all();
-        return $this->taskRepo->fillterWithUser($id,$req);
+    public function fillterWithUser(Request $request, $id)
+    {
+        $req = $request->all();
+        return $this->taskRepo->fillterWithUser($id, $req);
     }
-  
+    public function search(Request $request)
+    {
+        return $this->taskRepo->serchTask($request->search);
+    }
 }

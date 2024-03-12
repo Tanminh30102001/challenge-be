@@ -61,7 +61,9 @@ class TaskRepository implements TaskRepositoryInterface
     public function getAllTassk()
     {
         $tasksWithUsersArray = Task::leftJoin('assignments', 'tasks.id', '=', 'assignments.task_id')
-            ->groupBy('tasks.id')
+            ->groupBy('tasks.id', 'type_id', 'priority_id', 'created_id',
+            'task_code','name','desc','deadline','Assigned','status_id','created_at',
+            'updated_at')
             ->select('tasks.*', DB::raw('GROUP_CONCAT(assignments.user_id) as user_ids'))
             ->get()
             ->map(function ($task) {
@@ -93,7 +95,9 @@ class TaskRepository implements TaskRepositoryInterface
     {
         $tasksWithUsersArray = Task::leftJoin('assignments', 'tasks.id', '=', 'assignments.task_id')
             ->where('assignments.user_id', $id)
-            ->groupBy('tasks.id')
+            ->groupBy('tasks.id', 'type_id', 'priority_id',
+             'created_id','task_code','name','desc',
+             'deadline','Assigned','status_id','created_at','updated_at')
             ->select('tasks.*', DB::raw('GROUP_CONCAT(assignments.user_id) as user_ids'))
             ->get()
             ->map(function ($task) {
@@ -154,5 +158,8 @@ class TaskRepository implements TaskRepositoryInterface
         }
 
         return $result;
+    }
+    public function serchTask($request){
+
     }
 }

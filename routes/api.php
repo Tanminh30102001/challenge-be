@@ -38,3 +38,5 @@ Route::post('/search',[TaskController::class,'search']);
 Route::post('/searchWithUser/{id}',[TaskController::class,'searchWithUser']);
 Route::get('/staticTask',[TaskController::class,'reportTaskStatic']);
 Route::post('/searchUser',[UserController::class,'searchUser']);
+Route::get('/getDetails/{taskId}',[TaskController::class,'detailsTask']);
+Route::post('/assignUser/{taskId}',[TaskController::class,'assignUser']);

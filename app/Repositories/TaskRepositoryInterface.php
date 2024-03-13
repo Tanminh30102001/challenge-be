@@ -12,6 +12,7 @@ interface TaskRepositoryInterface{
     public function serchTask($request);
     public function serchTaskWithUser($keyword,$id);
     public function reportTask();
-
+    public function getDetailTask($id);
+    public function assigneUser($taskID, $request);
     
 }

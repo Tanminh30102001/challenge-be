@@ -149,10 +149,10 @@ class TaskRepository implements TaskRepositoryInterface
             $query = $query->where('status_id', $request['status_id']);
         }
         if (isset($request['priority_id'])) {
-            $query =  $query->where('priority_id', $request['priority_id']);
+            $query = $query->where('priority_id', $request['priority_id']);
         }
         if (isset($request['type_id'])) {
-            $query =  $query->where('type_id', $request['type_id']);
+            $query = $query->where('type_id', $request['type_id']);
         }
         $result = [];
         foreach ($query as $item) {
@@ -186,74 +186,97 @@ class TaskRepository implements TaskRepositoryInterface
     {
         $keyword = strtolower($keyword);
         $tasksWithUsersArray = Task::leftJoin('assignments', 'tasks.id', '=', 'assignments.task_id')
-        ->where(function($query) use ($keyword) {
-            $query->whereRaw('LOWER(tasks.name) like ?', '%' . $keyword . '%') // Tìm kiếm không phân biệt chữ hoa chữ thường
-                ->orWhere('tasks.task_code', 'like', '%' . $keyword . '%'); // Tìm kiếm theo task code
-        })
-        ->groupBy('tasks.id', 'type_id', 'priority_id', 'created_id',
-            'task_code','name','desc','deadline','Assigned','status_id','created_at',
-            'updated_at')
-        ->select('tasks.*', DB::raw('GROUP_CONCAT(assignments.user_id) as user_ids'))
-        ->get()
-        ->map(function ($task) {
-            $task['user_ids'] = explode(',', $task['user_ids']);
-            $userFullnames = [];
-            foreach ($task['user_ids'] as $userId) {
-                $user = User::find($userId);
-                if ($user) {
-                    $userFullnames[] = ['name' => $user->fullname];
+            ->where(function ($query) use ($keyword) {
+                $query->whereRaw('LOWER(tasks.name) like ?', '%' . $keyword . '%') // Tìm kiếm không phân biệt chữ hoa chữ thường
+                    ->orWhere('tasks.task_code', 'like', '%' . $keyword . '%'); // Tìm kiếm theo task code
+            })
+            ->groupBy(
+                'tasks.id',
+                'type_id',
+                'priority_id',
+                'created_id',
+                'task_code',
+                'name',
+                'desc',
+                'deadline',
+                'Assigned',
+                'status_id',
+                'created_at',
+                'updated_at'
+            )
+            ->select('tasks.*', DB::raw('GROUP_CONCAT(assignments.user_id) as user_ids'))
+            ->get()
+            ->map(function ($task) {
+                $task['user_ids'] = explode(',', $task['user_ids']);
+                $userFullnames = [];
+                foreach ($task['user_ids'] as $userId) {
+                    $user = User::find($userId);
+                    if ($user) {
+                        $userFullnames[] = ['name' => $user->fullname];
+                    }
                 }
-            }
 
-            $task['user_fullnames'] = $userFullnames;
+                $task['user_fullnames'] = $userFullnames;
 
-            return $task;
-        });
-    
-    return $tasksWithUsersArray;
+                return $task;
+            });
+
+        return $tasksWithUsersArray;
     }
-    public function serchTaskWithUser($keyword,$id)
+    public function serchTaskWithUser($keyword, $id)
     {
         $keyword = strtolower($keyword);
         $tasksWithUsersArray = Task::leftJoin('assignments', 'tasks.id', '=', 'assignments.task_id')->where('assignments.user_id', $id)
-        ->where(function($query) use ($keyword) {
-            $query->whereRaw('LOWER(tasks.name) like ?', '%' . $keyword . '%') 
-                ->orWhere('tasks.task_code', 'like', '%' . $keyword . '%'); 
-        })
-        ->groupBy('tasks.id', 'type_id', 'priority_id', 'created_id',
-            'task_code','name','desc','deadline','Assigned','status_id','created_at',
-            'updated_at')
-        ->select('tasks.*', DB::raw('GROUP_CONCAT(assignments.user_id) as user_ids'))
-        ->get()
-        ->map(function ($task) {
-            $task['user_ids'] = explode(',', $task['user_ids']);
-            $userFullnames = [];
-            foreach ($task['user_ids'] as $userId) {
-                $user = User::find($userId);
-                if ($user) {
-                    $userFullnames[] = ['name' => $user->fullname];
+            ->where(function ($query) use ($keyword) {
+                $query->whereRaw('LOWER(tasks.name) like ?', '%' . $keyword . '%')
+                    ->orWhere('tasks.task_code', 'like', '%' . $keyword . '%');
+            })
+            ->groupBy(
+                'tasks.id',
+                'type_id',
+                'priority_id',
+                'created_id',
+                'task_code',
+                'name',
+                'desc',
+                'deadline',
+                'Assigned',
+                'status_id',
+                'created_at',
+                'updated_at'
+            )
+            ->select('tasks.*', DB::raw('GROUP_CONCAT(assignments.user_id) as user_ids'))
+            ->get()
+            ->map(function ($task) {
+                $task['user_ids'] = explode(',', $task['user_ids']);
+                $userFullnames = [];
+                foreach ($task['user_ids'] as $userId) {
+                    $user = User::find($userId);
+                    if ($user) {
+                        $userFullnames[] = ['name' => $user->fullname];
+                    }
                 }
-            }
 
-            $task['user_fullnames'] = $userFullnames;
+                $task['user_fullnames'] = $userFullnames;
 
-            return $task;
-        });
-    
-    return $tasksWithUsersArray;
+                return $task;
+            });
+
+        return $tasksWithUsersArray;
     }
-    public function reportTask(){
+    public function reportTask()
+    {
         $totalTasks = Task::count();
         $currentDate = Carbon::now()->toDateString();
 
 
-         $totalTasksWithStatus1 = Task::where('status_id',1)->count();
-         $totalTasksWithStatus2 = Task::where('status_id',2)->count();
-         $totalTasksWithStatus3 = Task::where('status_id',3)->count();
-         $totalTasksWithStatus4 = Task::where('status_id',4)->count();
-         $totalTasksWithStatusBUG = Task::where('status_id',4)->count();
-         $overdueTasksCount = Task::where('deadline', '<', $currentDate)->count();
-         return response()->json([
+        $totalTasksWithStatus1 = Task::where('status_id', 1)->count();
+        $totalTasksWithStatus2 = Task::where('status_id', 2)->count();
+        $totalTasksWithStatus3 = Task::where('status_id', 3)->count();
+        $totalTasksWithStatus4 = Task::where('status_id', 4)->count();
+        $totalTasksWithStatusBUG = Task::where('status_id', 4)->count();
+        $overdueTasksCount = Task::where('deadline', '<', $currentDate)->count();
+        return response()->json([
             'total_tasks' => $totalTasks,
             'total_tasks_with_status_1' => $totalTasksWithStatus1,
             'total_tasks_with_status_2' => $totalTasksWithStatus2,
@@ -261,5 +284,52 @@ class TaskRepository implements TaskRepositoryInterface
             'total_tasks_with_status_4' => $totalTasksWithStatus4,
             'overdue_tasks' => $overdueTasksCount,
         ]);
+    }
+    public function getDetailTask($id)
+    {
+        $tasksWithUsersArray = Task::leftJoin('assignments', 'tasks.id', '=', 'assignments.task_id')->where('tasks.id', $id)
+            ->groupBy(
+                'tasks.id',
+                'type_id',
+                'priority_id',
+                'created_id',
+                'task_code',
+                'name',
+                'desc',
+                'deadline',
+                'Assigned',
+                'status_id',
+                'created_at',
+                'updated_at'
+            )
+            ->select('tasks.*', DB::raw('GROUP_CONCAT(assignments.user_id) as user_ids'))->orderByDesc('tasks.id')
+            ->get()
+            ->map(function ($task) {
+                $task['user_ids'] = explode(',', $task['user_ids']);
+                $userFullnames = [];
+                foreach ($task['user_ids'] as $userId) {
+                    $user = User::find($userId);
+                    if ($user) {
+                        $userFullnames[] = ['name' => $user->fullname];
+                    }
+                }
+
+                $task['user_fullnames'] = $userFullnames;
+
+                return $task;
+            });
+        return $tasksWithUsersArray;
+    }
+    public function assigneUser($taskID, $request)
+    {
+
+        $task = Assignment::where('task_id', $taskID)->first();
+        foreach ($request['users'] as $userID) {
+            $as = new Assignment;
+            $as->task_id = $taskID;
+            $as->user_id = $userID;
+            $as->save();
+        }
+        return $task;
     }
 }

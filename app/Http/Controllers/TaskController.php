@@ -23,7 +23,7 @@ class TaskController extends Controller
     }
     public function index()
     {
-        return  $this->taskRepo->getAllTassk();
+        return $this->taskRepo->getAllTassk();
     }
     public function getDetailsTask($id)
     {
@@ -51,10 +51,22 @@ class TaskController extends Controller
     {
         return $this->taskRepo->serchTask($request->search);
     }
-    public function searchWithUser(Request $request,$id){
-        return $this->taskRepo->serchTaskWithUser($request->search,$id);
+    public function searchWithUser(Request $request, $id)
+    {
+        return $this->taskRepo->serchTaskWithUser($request->search, $id);
     }
-    public function reportTaskStatic(){
+    public function reportTaskStatic()
+    {
         return $this->taskRepo->reportTask();
+    }
+    public function detailsTask($taskId)
+    {
+
+        return $this->taskRepo->getDetailTask($taskId);
+    }
+    public function assignUser($taskId, Request $request)
+    {
+
+        return $this->taskRepo->assigneUser($taskId, $request->all());
     }
 }

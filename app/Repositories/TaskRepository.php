@@ -76,7 +76,7 @@ class TaskRepository implements TaskRepositoryInterface
                 'created_at',
                 'updated_at'
             )
-            ->select('tasks.*', DB::raw('GROUP_CONCAT(assignments.user_id) as user_ids'))
+            ->select('tasks.*', DB::raw('GROUP_CONCAT(assignments.user_id) as user_ids'))->orderByDesc('tasks.id')
             ->get()
             ->map(function ($task) {
                 $task['user_ids'] = explode(',', $task['user_ids']);
@@ -121,7 +121,7 @@ class TaskRepository implements TaskRepositoryInterface
                 'created_at',
                 'updated_at'
             )
-            ->select('tasks.*', DB::raw('GROUP_CONCAT(assignments.user_id) as user_ids'))
+            ->select('tasks.*', DB::raw('GROUP_CONCAT(assignments.user_id) as user_ids'))->orderByDesc('tasks.id')
             ->get()
             ->map(function ($task) {
                 // Chuyển chuỗi user_ids thành mảng các user_id

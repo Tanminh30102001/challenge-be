@@ -32,4 +32,9 @@ class UserRepository implements RepositoryInterface
         $user->update([ 'approve'=>1 ]);
         return  $user;
     }
+    public function searchUsers($keyword){
+        
+        $user=User::where('username','like','%'. $keyword. '%')->get();
+        return $user;
+    }
 }

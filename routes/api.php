@@ -37,3 +37,4 @@ Route::post('/fillterWithUser/{id}',[TaskController::class,'fillterWithUser']);
 Route::post('/search',[TaskController::class,'search']);
 Route::post('/searchWithUser/{id}',[TaskController::class,'searchWithUser']);
 Route::get('/staticTask',[TaskController::class,'reportTaskStatic']);
+Route::post('/searchUser',[UserController::class,'searchUser']);

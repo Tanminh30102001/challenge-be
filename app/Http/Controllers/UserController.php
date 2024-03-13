@@ -32,10 +32,13 @@ class UserController extends Controller
         return  $this->userRepository->login($request->all());
     }
     public function index(){
-        return User::all();
+        return User::orderByDesc('id')->get();
     }
     public function approveUser($id){
         return $this->userRepository->approveUser($id);
     }
-
+    public function searchUser(Request $request){
+        
+        return $this->userRepository->searchUsers($request->search);
+    }
 }

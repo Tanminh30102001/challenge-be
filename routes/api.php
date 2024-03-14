@@ -44,3 +44,6 @@ Route::post('/assignUser/{taskId}',[TaskController::class,'assignUser']);
 Route::post('/changePassWord/{id}',[UserController::class,'changePassword']);
 Route::patch('/updateUser/{id}',[UserController::class,'updateInfoUser']);
 Route::get('/getDetailsUser/{id}',[UserController::class,'getDetailsUser']);
+Route::post('/addStatus',[StatusController::class,'addStatus']);
+Route::patch('/updateStatus/{id}',[StatusController::class,'update']);
+Route::delete('/deleteStatus/{id}',[StatusController::class,'deleteStatus']);

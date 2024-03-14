@@ -40,3 +40,4 @@ Route::get('/staticTask',[TaskController::class,'reportTaskStatic']);
 Route::post('/searchUser',[UserController::class,'searchUser']);
 Route::get('/getDetails/{taskId}',[TaskController::class,'detailsTask']);
 Route::post('/assignUser/{taskId}',[TaskController::class,'assignUser']);
+Route::post('/changePassWord/{id}',[UserController::class,'changePassword']);

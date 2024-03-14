@@ -37,4 +37,17 @@ class UserRepository implements RepositoryInterface
         $user=User::where('username','like','%'. $keyword. '%')->get();
         return $user;
     }
+    public function changePass($request,$id){
+        $user=User::findOrFail($id);
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+        if (!Hash::check($request['current_password'], $user->password)) {
+            return response()->json(['message' => 'curent pasword not same new password'], 400);
+        }
+        $user->password = Hash::make($request['new_password']);
+        $user->save();
+        return response()->json(['message' => 'Change password successfully'], 200);
+        
+    }
 }

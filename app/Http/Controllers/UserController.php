@@ -41,4 +41,11 @@ class UserController extends Controller
         
         return $this->userRepository->searchUsers($request->search);
     }
+    public function changePassword(Request $request,$id){
+        $validator=UserValidator::changePass($request->all());
+        if($validator->fails()){
+            return response()->json(['error'=>$validator->errors()],400);
+        }
+        return $this->userRepository->changePass($request->all(),$id);
+    }
 }

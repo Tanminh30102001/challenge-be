@@ -21,7 +21,13 @@ class UserValidator
             'password' => ['required', 'string', 'min:6'],
         ]);
     }
-    
+    public static function changePass(array $data){
+        
+        return Validator::make($data,[
+            'current_password'=>'required',
+            'new_password'=>['required','different:current_password','min:6']
+        ]);
+    }
 
     // Các phương thức validate khác
 }

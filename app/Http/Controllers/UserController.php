@@ -37,6 +37,9 @@ class UserController extends Controller
     public function approveUser($id){
         return $this->userRepository->approveUser($id);
     }
+    public function blockUser($id){
+        return $this->userRepository->blockUser($id);
+    }
     public function searchUser(Request $request){
         
         return $this->userRepository->searchUsers($request->search);
@@ -47,5 +50,12 @@ class UserController extends Controller
             return response()->json(['error'=>$validator->errors()],400);
         }
         return $this->userRepository->changePass($request->all(),$id);
+    }
+    public function updateInfoUser(Request $request,$id){
+
+        return $this->userRepository->updateUser($request->all(),$id);
+    }
+    public function getDetailsUser($id){
+        return $this->userRepository->getDetailsUser($id);
     }
 }
